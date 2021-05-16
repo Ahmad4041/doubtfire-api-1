@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 20210310000709) do
   add_index "activity_types", ["abbreviation"], name: "index_activity_types_on_abbreviation", unique: true, using: :btree
   add_index "activity_types", ["name"], name: "index_activity_types_on_name", unique: true, using: :btree
 
+  create_table "auth_tokens", force: :cascade do |t|
+    t.string   "encrypted_authentication_token",    limit: 255, null: false
+    t.datetime "auth_token_expiry",                             null: false
+    t.integer  "user_id"
+    t.string   "encrypted_authentication_token_iv", limit: 255
+  end
+
+  add_index "auth_tokens", ["user_id"], name: "index_auth_tokens_on_user_id", using: :btree
+
   create_table "breaks", force: :cascade do |t|
     t.datetime "start_date",         null: false
     t.integer  "number_of_weeks",    null: false
